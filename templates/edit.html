@@ -1,0 +1,56 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todos</title>
+</head>
+<body>
+    <h1>Todos</h1>
+
+    <!-- Display all todos -->
+    {% for todo in tasks %}
+        <div>
+            <h3>{{ todo.title }}</h3>
+            <p>{{ todo.description }}</p>
+
+            <!-- Edit button -->
+            <button onclick="openEditForm('{{ todo.id }}', '{{ todo.title }}', '{{ todo.description }}')">Edit</button>
+
+            <!-- Delete button -->
+            <form action="/todos/{{ todo.id }}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    {% endfor %}
+
+    <!-- Form for editing todo -->
+    <div id="editFormContainer" style="display: none;">
+        <h2>Edit Todo</h2>
+        <form id="editForm" method="post">
+            <input type="hidden" id="editTodoId" name="id">
+            <div>
+                <label for="editTitle">Title:</label>
+                <input type="text" id="editTitle" name="title" required>
+            </div>
+            <div>
+                <label for="editDescription">Description:</label>
+                <textarea id="editDescription" name="description" required></textarea>
+            </div>
+            <button type="submit">Update</button>
+        </form>
+    </div>
+
+    <script>
+        function openEditForm(todoId, title, description) {
+            // Set the todo ID, title, and description in the edit form
+            document.getElementById("editTodoId").value = todoId;
+            document.getElementById("editTitle").value = title;
+            document.getElementById("editDescription").value = description;
+
+            // Show the edit form
+            document.getElementById("editFormContainer").style.display = "block";
+        }
+    </script>
+</body>
+</html>
